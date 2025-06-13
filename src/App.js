@@ -3,7 +3,7 @@ import './App.css';
 
 function App() {
   function handleClick(){
-    alert("DON'T CLICK ME!");
+    alert("Good Job!!");
   }
   return (
     <div className="App">
