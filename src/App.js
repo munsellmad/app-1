@@ -3,7 +3,7 @@ import './App.css';
 
 function App() {
   function handleClick(){
-    alert("DON'T CLICK ME!");
+    alert("Good Job!!");
   }
   return (
     <div className="App">
@@ -12,7 +12,7 @@ function App() {
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
-        <button onClick={handleClick}>Click Here!</button>
+        <button onClick={handleClick}>Don't Click Here!</button>
       </header>
     </div>
   );
