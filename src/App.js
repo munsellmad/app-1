@@ -12,7 +12,7 @@ function App() {
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
-        <button onClick={handleClick}>Click Here!</button>
+        <button onClick={handleClick}>Don't Click Here!</button>
       </header>
     </div>
   );
