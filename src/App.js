@@ -1,24 +1,53 @@
 import logo from './logo.svg';
 import './App.css';
+import {mapList} from './maps.js'
+import { useState } from 'react';
 import MapComponent from './MapComponent.js'
 
 export default function App() {
+
+const [index, setIndex] = useState(0);
+
+  const [isActive, setIsActive] = useState(false);
+
   function handleClick(){
-    alert("Good Job!!");
-  }
+    setIndex((index + 1) % mapList.length);
+    }
+  
+
+  let location = mapList[index];
   return (
     <div className="App">
       <header className="App-header">
-        <MapComponent />
-        {/* <img src={logo} className="App-logo" alt="logo" />
+
+        {/* <MapComponent /> */}
+               {/* <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
-        <button onClick={handleClick}>Don't Click Here!</button> */}
+        */}
+        <button onClick={handleClick}>
+          Next
+          </button> 
+          <h1>
+            <i>{location.name}</i>
+          </h1>
+          <h3>  
+        ({index + 1} of {mapList.length})
+      </h3>
+      <iframe src={location.url}
+        width="800" 
+        height="650" 
+        allowfullscreen="" 
+        loading="lazy" 
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
       </header>
     </div>
   );
 }
+
+
 
 // function MapComponent() {
 //   function handleClick(){
