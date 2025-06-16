@@ -1,7 +1,60 @@
-.App {
-  text-align: center;
+/* Ensure html, body, and the Create React App root div (#root) take full height */
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%; /* Critical for making % heights work down the tree */
+  width: 100%;  /* Ensure full width */
+  overflow: hidden; /* Prevents unintended scrollbars */
+  display: flex; /* Helps ensure #root fills its parent */
+  flex-direction: column; /* Allows content within #root to stack vertically */
+  background-color: #1a1a1a; /* Added for visual debugging - dark background */
+  color: white; /* For any text content */
 }
 
+/* Styles for the main App component's wrapper */
+.App { /* This is the outer div in your App.js */
+  height: 100%; /* Take 100% of the #root's height */
+  width: 100%; /* Take 100% of the #root's width */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Styles for the App-header, which contains your MapApp */
+.App-header { /* This is the header in your App.js */
+  background-color: #282c34;
+  flex-grow: 1; /* Allow this header to grow and take all available vertical space */
+  width: 100%; /* Take full width */
+  display: flex; /* Make it a flex container to manage its children */
+  flex-direction: column; /* Stack children (MapApp) vertically */
+  align-items: center; /* Center children horizontally (MapApp) */
+  justify-content: center; /* Center children vertically */
+  font-size: calc(10px + 2vmin);
+  color: white;
+  padding: 0; /* Remove default padding that might affect sizing */
+}
+
+/* Styles for the MapContainerWrapper (which holds the map) */
+.MapContainerWrapper { /* This is the outer div in your MapApp.js */
+  flex-grow: 1; /* This div will take up all available vertical space within App-header */
+  width: 100%; /* Ensure it spans full width */
+  height: 100%; /* Important: also explicitly set height to 100% of its parent (App-header) */
+  display: flex; /* Make it a flex container */
+  justify-content: center; /* Center map horizontally if it doesn't fill 100% */
+  align-items: center;   /* Center map vertically if it doesn't fill 100% */
+  background-color: #f0f0f0; /* Light background for easy visibility if the map itself fails */
+}
+
+/* The actual Leaflet map container element */
+.leaflet-container {
+  /* This class is automatically added by Leaflet to the map div */
+  height: 90%; /* The map should fill 90% of its parent (.MapContainerWrapper) */
+  width: 90%; /* The map should fill 90% of its parent */
+  border-radius: 8px; /* Cosmetic: rounded corners */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Cosmetic: subtle shadow */
+  background-color: #fff; /* Cosmetic: white background for map tiles */
+}
+
+/* Default CRA styles, might not be needed if you only want the map */
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -11,17 +64,6 @@
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
 .App-link {

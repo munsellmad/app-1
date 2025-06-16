@@ -1,28 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
-import { MapContainer } from 'https://cdn.esm.sh/react-leaflet/MapContainer'
-import { TileLayer } from 'https://cdn.esm.sh/react-leaflet/TileLayer'
-import { useMap } from 'https://cdn.esm.sh/react-leaflet/hooks'
+// Removed unused useState import as it's not used in this component
+import './App.css'
+// Import Leaflet CSS
+import 'leaflet/dist/leaflet.css';
+
+// Importing components from locally installed react-leaflet
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
 
 function MapApp() {
   return (
-    <div className="MapApp">
-      <header className="MapApp-header">
+    // Simplified structure: MapContainer directly inside a styled div
+    <div className="MapContainerWrapper">
        <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
-        <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        <Marker position={[51.505, -0.09]}>
-            <Popup>
-                A pretty CSS3 popup. <br /> Easily customizable.
-            </Popup>
-        </Marker>
-       </MapContainer>
-      </header>
+  <TileLayer
+    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+  />
+  <Marker position={[51.505, -0.09]}>
+    <Popup>
+      A pretty CSS3 popup. <br /> Easily customizable.
+    </Popup>
+  </Marker>
+</MapContainer>
     </div>
   );
 }
 
-
-//export default MapApp;
+export default MapApp;

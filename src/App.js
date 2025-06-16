@@ -2,7 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import {mapList} from './maps.js'
 import { useState } from 'react';
-// import MapApp from './MapApp.js'
+import MapApp from './MapApp.js'
 
 export default function App() {
 
@@ -19,8 +19,8 @@ const [index, setIndex] = useState(0);
   return (
     <div className="App">
       <header className="App-header">
-        {/* <MapApp /> */}
-        <button onClick={handleClick}>
+        <MapApp />
+        {/* <button onClick={handleClick}>
           Next location
           </button> 
           <h1>
@@ -35,7 +35,7 @@ const [index, setIndex] = useState(0);
         allowfullscreen="" 
         loading="lazy" 
         referrerpolicy="no-referrer-when-downgrade">
-      </iframe>
+      </iframe> */}
       </header>
     </div>
   );
