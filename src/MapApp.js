@@ -1,6 +1,7 @@
 import './App.css'
 import 'leaflet/dist/leaflet.css';
-import { MapContainer, TileLayer, Marker, Popup, Polyline, Polygon, Circle, CircleMarker} from 'react-leaflet'
+import { MapContainer, TileLayer, Marker, Popup, LayersControl, LayerGroup} from 'react-leaflet'
+import {Polyline, Polygon, Circle, CircleMarker} from 'react-leaflet'
 import React, { useState, useEffect, useCallback, useMemo} from 'react'
 
 const center = [38.6263, -90.1751]
@@ -33,7 +34,7 @@ const polygon = [
 
 const purpleOptions = { color: 'purple' }
 const limeOptions = { color: 'lime' }
-const fillBlueOptions = { fillColor: 'blue' }
+const fillRedOptions = { fillColor: 'red' }
 const redOptions = { color: 'red' }
 
 function DisplayPosition({map}) {
@@ -75,13 +76,25 @@ function MapCoords(){
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-         <Polyline pathOptions={limeOptions} positions={polyline} />
-         <Polyline pathOptions={limeOptions} positions={multiPolyline} />
-         <Polygon pathOptions={purpleOptions} positions={polygon} />
-         <Circle center={center} pathOptions={fillBlueOptions} radius={5000} />
-         <CircleMarker center={[38.653, -90.92]} pathOptions={redOptions} radius={20}>
-             <Popup>Popup in CircleMarker</Popup>
-         </CircleMarker>
+        <LayersControl position="topright">
+            <LayersControl.Overlay checked name="RED CIRCLES">
+                <LayerGroup>
+                 <Circle center={center} pathOptions={redOptions} radius={5000} />
+                <CircleMarker center={[38.653, -90.92]} pathOptions={redOptions} radius={20}>
+                    <Popup>Red Circle :o</Popup>
+                </CircleMarker>
+                </LayerGroup>
+            </LayersControl.Overlay>
+            <LayersControl.Overlay name="Lime green group">
+                <LayerGroup>
+                <Polyline pathOptions={limeOptions} positions={polyline} />
+                <Polyline pathOptions={limeOptions} positions={multiPolyline} />
+                <Polygon pathOptions={limeOptions} positions={polygon} />
+                </LayerGroup>
+            </LayersControl.Overlay>
+        </LayersControl>
+         
+        
       </MapContainer>
     ),
     [],
