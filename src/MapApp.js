@@ -1,7 +1,7 @@
 import './App.css'
 import 'leaflet/dist/leaflet.css';
 import { MapContainer, TileLayer, Marker, Popup} from 'react-leaflet'
-import React, { useState, useEffect, useCallback, useMemo, onMove, onClick } from 'react'
+import React, { useState, useEffect, useCallback, useMemo} from 'react'
 
 const center = [38.6817, -90.0530]
 const zoom = 10
@@ -13,7 +13,7 @@ function DisplayPosition({map}) {
         map.setView(center, zoom)
     }, [map])
 
-    const onMove = useCallback(() => {
+ const onMove = useCallback(() => {
         setPosition(map.getCenter())
     }, [map])
 
@@ -31,7 +31,6 @@ function DisplayPosition({map}) {
     </p>
   )
 }
-
 function MapCoords(){ 
     const [map, setMap] = useState(null)
 
