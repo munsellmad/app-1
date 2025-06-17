@@ -1,10 +1,40 @@
 import './App.css'
 import 'leaflet/dist/leaflet.css';
-import { MapContainer, TileLayer, Marker, Popup} from 'react-leaflet'
+import { MapContainer, TileLayer, Marker, Popup, Polyline, Polygon, Circle, CircleMarker} from 'react-leaflet'
 import React, { useState, useEffect, useCallback, useMemo} from 'react'
 
-const center = [38.6817, -90.0530]
+const center = [38.6263, -90.1751]
 const zoom = 10
+
+const polyline = [
+  [38.6217, -90.05],
+  [38.626, -90.17],
+  [38.626, -90.27],
+]
+
+const multiPolyline = [
+  [
+    [38.75, -90.1],
+    [38.755, -90.12],
+    [38.755, -90.12],
+  ],
+  [
+    [38.55, -90.05],
+    [38.55, -90.06],
+    [38.52, -90.06],
+  ],
+]
+
+const polygon = [
+  [38.515, -90.19],
+  [38.22, -90.23],
+  [38.22, -90.27],
+]
+
+const purpleOptions = { color: 'purple' }
+const limeOptions = { color: 'lime' }
+const fillBlueOptions = { fillColor: 'blue' }
+const redOptions = { color: 'red' }
 
 function DisplayPosition({map}) {
     const [position, setPosition] = useState(() => map.getCenter())
@@ -45,6 +75,13 @@ function MapCoords(){
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
+         <Polyline pathOptions={limeOptions} positions={polyline} />
+         <Polyline pathOptions={limeOptions} positions={multiPolyline} />
+         <Polygon pathOptions={purpleOptions} positions={polygon} />
+         <Circle center={center} pathOptions={fillBlueOptions} radius={5000} />
+         <CircleMarker center={[38.653, -90.92]} pathOptions={redOptions} radius={20}>
+             <Popup>Popup in CircleMarker</Popup>
+         </CircleMarker>
       </MapContainer>
     ),
     [],
