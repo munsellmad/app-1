@@ -1,28 +1,75 @@
-// Removed unused useState import as it's not used in this component
 import './App.css'
-// Import Leaflet CSS
 import 'leaflet/dist/leaflet.css';
+import { MapContainer, TileLayer, Marker, Popup} from 'react-leaflet'
+import React, { useState, useEffect, useCallback, useMemo, onMove, onClick } from 'react'
 
-// Importing components from locally installed react-leaflet
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
+const center = [38.6817, -90.0530]
+const zoom = 10
 
+function DisplayPosition({map}) {
+    const [position, setPosition] = useState(() => map.getCenter())
+
+    const onClick = useCallback(() => {
+        setPosition(map.getCenter())
+    }, [map])
+
+    useEffect(() => {
+        map.on('move', onMove)
+        return () => {
+            map.off('move', onMove)
+        }
+    }, [map, onMove])
+
+    return (
+    <p>
+      latitude: {position.lat.toFixed(4)}, longitude: {position.lng.toFixed(4)}{' '}
+      <button onClick={onClick}>find coordinates</button>
+    </p>
+  )
+}
+
+function MapCoords(){ 
+    const [map, setMap] = useState(null)
+
+  const displayMap = useMemo(
+    () => (
+      <MapContainer
+        center={center}
+        zoom={zoom}
+        scrollWheelZoom={false}
+        ref={setMap}>
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+      </MapContainer>
+    ),
+    [],
+  )
+
+  return (
+    <div className = "MapContainerWrapper">
+      {map ? <DisplayPosition map={map} /> : null} 
+      {displayMap}
+    </div>
+  )
+}
 function MapApp() {
   return (
-    // Simplified structure: MapContainer directly inside a styled div
-    <div className="MapContainerWrapper">
-       <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
-  <TileLayer
-    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-  />
-  <Marker position={[51.505, -0.09]}>
-    <Popup>
-      A pretty CSS3 popup. <br /> Easily customizable.
-    </Popup>
-  </Marker>
-</MapContainer>
+     <div className="MapContainerWrapper">
+       <MapContainer center={[center]} zoom={zoom} scrollWheelZoom={false}>
+        <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <Marker position={[51.505, -0.09]}>
+            <Popup>
+                A pretty CSS3 popup. <br /> Easily customizable.
+            </Popup>
+        </Marker>
+        </MapContainer>
     </div>
   );
 }
 
-export default MapApp;
+export default MapCoords;

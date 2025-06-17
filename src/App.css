@@ -41,7 +41,7 @@ html, body, #root {
   display: flex; /* Make it a flex container */
   justify-content: center; /* Center map horizontally if it doesn't fill 100% */
   align-items: center;   /* Center map vertically if it doesn't fill 100% */
-  background-color: #f0f0f0; /* Light background for easy visibility if the map itself fails */
+  background-color: #282c34; /* Light background for easy visibility if the map itself fails */
 }
 
 /* The actual Leaflet map container element */

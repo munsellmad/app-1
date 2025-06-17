@@ -2,7 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import {mapList} from './maps.js'
 import { useState } from 'react';
-import MapApp from './MapApp.js'
+import MapCoords from './MapApp.js'
 
 export default function App() {
 
@@ -17,9 +17,10 @@ const [index, setIndex] = useState(0);
 
   let location = mapList[index];
   return (
+    
     <div className="App">
+      <MapCoords />
       <header className="App-header">
-        <MapApp />
         {/* <button onClick={handleClick}>
           Next location
           </button> 
