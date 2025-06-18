@@ -8,9 +8,9 @@ const center = [38.6263, -90.1751]
 const zoom = 10
 
 const polyline = [
-  [38.6217, -90.05],
-  [38.626, -90.17],
-  [38.626, -90.27],
+  [38.8113, -89.9557],
+  [38.6312, -90.193313],
+  [38.6312, -90.193313],
 ]
 
 const multiPolyline = [
@@ -36,6 +36,7 @@ const purpleOptions = { color: 'purple' }
 const limeOptions = { color: 'lime' }
 const fillRedOptions = { fillColor: 'red' }
 const redOptions = { color: 'red' }
+const blueOptions = {color : 'blue'}
 
 function DisplayPosition({map}) {
     const [position, setPosition] = useState(() => map.getCenter())
@@ -80,7 +81,7 @@ function MapCoords(){
             <LayersControl.Overlay checked name="RED CIRCLES">
                 <LayerGroup>
                  <Circle center={center} pathOptions={redOptions} radius={5000} />
-                <CircleMarker center={[38.653, -90.92]} pathOptions={redOptions} radius={20}>
+                <CircleMarker center={[38.8113, -89.9557]} pathOptions={redOptions} radius={20}>
                     <Popup>Red Circle :o</Popup>
                 </CircleMarker>
                 </LayerGroup>
@@ -90,6 +91,11 @@ function MapCoords(){
                 <Polyline pathOptions={limeOptions} positions={polyline} />
                 <Polyline pathOptions={limeOptions} positions={multiPolyline} />
                 <Polygon pathOptions={limeOptions} positions={polygon} />
+                </LayerGroup>
+            </LayersControl.Overlay>
+            <LayersControl.Overlay name="Blue circle">
+                <LayerGroup>
+                    <Circle center={[38.6312, -90.193313]} pathOptions={blueOptions} radius={100} />
                 </LayerGroup>
             </LayersControl.Overlay>
         </LayersControl>
