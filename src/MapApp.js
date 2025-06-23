@@ -1,8 +1,8 @@
 import './App.css'
 import 'leaflet/dist/leaflet.css';
-import { MapContainer, TileLayer, Marker, Popup, LayersControl, LayerGroup, useMap, useMapEvents} from 'react-leaflet'
+import { MapContainer, TileLayer, Marker, Popup, LayersControl, LayerGroup, useMap, useMapEvents, Tooltip} from 'react-leaflet'
 import {Polyline, Polygon, Circle, CircleMarker, Rectangle} from 'react-leaflet'
-import React, { useState, useEffect, useCallback, useMemo, useEventHandlers} from 'react'
+import React, { useState, useEffect, useCallback, useMemo, useRef} from 'react'
 
 const center = [38.6263, -90.1751]
 const zoom = 10
@@ -32,10 +32,8 @@ const polygon = [
   [38.22, -90.27],
 ]
 
-
 const purpleOptions = { color: 'purple' }
 const limeOptions = { color: 'lime' }
-const fillRedOptions = { fillColor: 'red' }
 const redOptions = { color: 'red' }
 const blueOptions = {color : 'blue'}
 
@@ -82,7 +80,7 @@ function Minimapbounds({ parentMap, zoom }) {
     }, [minimap, parentMap, zoom])
 
     const handlers = useMemo(() => ({ move: onChange, zoom: onChange }), [])
-    useEventHandlers ({ isntance: parentMap}, handlers)
+    useEffect({ isntance: parentMap}, handlers)
 
     return <Rectangle bounds = {bounds} pathOptions={BOUNDS_STYLE} />
 }
@@ -111,6 +109,7 @@ function MinimapControl({ position, zoom }) {
 }
 function MapCoords(){ 
     const [map, setMap] = useState(null)
+    const animateRef = useRef(false)
 
   const displayMap = useMemo(
     () => (
@@ -128,29 +127,32 @@ function MapCoords(){
                 <LayerGroup>
                  <Circle center={center} pathOptions={redOptions} radius={5000} />
                 <CircleMarker center={[38.8113, -89.9557]} pathOptions={redOptions} radius={20}>
-                    <Popup>Red Circle :o</Popup>
+                    <Tooltip>Red Circle :o</Tooltip>
                 </CircleMarker>
                 </LayerGroup>
             </LayersControl.Overlay>
-            <LayersControl.Overlay name="Lime green lines">
+            <LayersControl.Overlay checked name="Lime green lines">
                 <LayerGroup>
                 <Polyline pathOptions={limeOptions} positions={polyline} />
                 <Polyline pathOptions={limeOptions} positions={multiPolyline} />
                 <Polygon pathOptions={limeOptions} positions={polygon} />
                 </LayerGroup>
             </LayersControl.Overlay>
-            <LayersControl.Overlay name="Blue circle">
+            <LayersControl.Overlay checked name="Blue circle">
                 <LayerGroup>
-                    <Circle center={[38.6312, -90.193313]} pathOptions={blueOptions} radius={100} />
+                    <Circle center={[38.6312, -90.193313]} pathOptions={blueOptions} radius={100} >
+                    <Tooltip> Work </Tooltip>
+                    </Circle>
                 </LayerGroup>
             </LayersControl.Overlay>
-            <LayersControl.Overlay name="Center">
+            <LayersControl.Overlay checked name="Center">
                 <LayerGroup>
-                    <Circle center={center} pathOptions={limeOptions} radius={500}/>
+                    <CircleMarker center={center} pathOptions={purpleOptions} radius={6}>
+                        <Tooltip> Center </Tooltip>
+                    </CircleMarker>
                 </LayerGroup>
             </LayersControl.Overlay>
         </LayersControl>
-        <MinimapControl position="bottomright" />
       </MapContainer>
     ),
     [],

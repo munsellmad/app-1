@@ -14,7 +14,6 @@ const [index, setIndex] = useState(0);
     setIndex((index + 1) % mapList.length);
     }
   
-
   let location = mapList[index];
   return (
     
