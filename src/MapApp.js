@@ -1,12 +1,12 @@
 import './App.css'
 import 'leaflet/dist/leaflet.css';
-import { MapContainer, TileLayer, Marker, Popup, LayersControl, LayerGroup} from 'react-leaflet'
-import {Polyline, Polygon, Circle, CircleMarker} from 'react-leaflet'
-import React, { useState, useEffect, useCallback, useMemo} from 'react'
+import { MapContainer, TileLayer, Marker, Popup, LayersControl, LayerGroup, useMap, useMapEvents} from 'react-leaflet'
+import {Polyline, Polygon, Circle, CircleMarker, Rectangle} from 'react-leaflet'
+import React, { useState, useEffect, useCallback, useMemo, useEventHandlers} from 'react'
 
 const center = [38.6263, -90.1751]
 const zoom = 10
-
+const BOUNDS_STYLE = {weight:1}
 const polyline = [
   [38.8113, -89.9557],
   [38.6312, -90.193313],
@@ -31,6 +31,7 @@ const polygon = [
   [38.22, -90.23],
   [38.22, -90.27],
 ]
+
 
 const purpleOptions = { color: 'purple' }
 const limeOptions = { color: 'lime' }
@@ -63,6 +64,51 @@ function DisplayPosition({map}) {
     </p>
   )
 }
+
+function Minimapbounds({ parentMap, zoom }) {
+    const minimap = useMap()
+    const onClick = useCallback(
+        (e) => {
+            parentMap.setView(e.latlng, parentMap.getZoom())
+        },
+        [parentMap],
+    )
+    useMapEvents('click', onClick)
+
+    const [bounds, setBounds] = useState(parentMap.getBounds())
+    const onChange = useCallback(() => {
+        setBounds(parentMap.getBounds())
+        minimap.setView(parentMap.getCenter(), zoom)
+    }, [minimap, parentMap, zoom])
+
+    const handlers = useMemo(() => ({ move: onChange, zoom: onChange }), [])
+    useEventHandlers ({ isntance: parentMap}, handlers)
+
+    return <Rectangle bounds = {bounds} pathOptions={BOUNDS_STYLE} />
+}
+
+function MinimapControl({ position, zoom }) {
+    const parentMap = useMap()
+    const mapZoom = zoom || 0
+
+    const minimap = useMemo(
+        () => (
+            <MapContainer
+            style={{ height: 80, width: 80 }}
+            center={parentMap.getCenter()}
+            zoom={mapZoom}
+            dragging={false}
+            doubleClickZoom={false}
+            scrollWheelZooom={false}
+            attributopnControl={false}
+            zoomControl = {false} >
+            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+            <Minimapbounds parentMap={parentMap} zoom={mapZoom} />
+            </MapContainer>
+        ),
+        [],
+    )
+}
 function MapCoords(){ 
     const [map, setMap] = useState(null)
 
@@ -86,7 +132,7 @@ function MapCoords(){
                 </CircleMarker>
                 </LayerGroup>
             </LayersControl.Overlay>
-            <LayersControl.Overlay name="Lime green group">
+            <LayersControl.Overlay name="Lime green lines">
                 <LayerGroup>
                 <Polyline pathOptions={limeOptions} positions={polyline} />
                 <Polyline pathOptions={limeOptions} positions={multiPolyline} />
@@ -98,9 +144,13 @@ function MapCoords(){
                     <Circle center={[38.6312, -90.193313]} pathOptions={blueOptions} radius={100} />
                 </LayerGroup>
             </LayersControl.Overlay>
+            <LayersControl.Overlay name="Center">
+                <LayerGroup>
+                    <Circle center={center} pathOptions={limeOptions} radius={500}/>
+                </LayerGroup>
+            </LayersControl.Overlay>
         </LayersControl>
-         
-        
+        <MinimapControl position="bottomright" />
       </MapContainer>
     ),
     [],
@@ -113,6 +163,7 @@ function MapCoords(){
     </div>
   )
 }
+
 function MapApp() {
   return (
      <div className="MapContainerWrapper">
