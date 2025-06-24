@@ -7,6 +7,10 @@ import React, { useState, useEffect, useCallback, useMemo, useRef} from 'react'
 const center = [38.6263, -90.1751]
 const zoom = 10
 const BOUNDS_STYLE = {weight:1}
+
+/*
+* Set shapes coordinates
+*/
 const polyline = [
   [38.8113, -89.9557],
   [38.6312, -90.193313],
@@ -32,11 +36,17 @@ const polygon = [
   [38.22, -90.27],
 ]
 
+/*
+* Set color options
+*/
 const purpleOptions = { color: 'purple' }
 const limeOptions = { color: 'lime' }
 const redOptions = { color: 'red' }
 const blueOptions = {color : 'blue'}
 
+/*
+* Displays the map, sets the center/allows for reset, displays the lat/lng coords
+*/
 function DisplayPosition({map}) {
     const [position, setPosition] = useState(() => map.getCenter())
 
@@ -63,6 +73,7 @@ function DisplayPosition({map}) {
   )
 }
 
+//Non-existent mini map
 function Minimapbounds({ parentMap, zoom }) {
     const minimap = useMap()
     const onClick = useCallback(
@@ -85,6 +96,7 @@ function Minimapbounds({ parentMap, zoom }) {
     return <Rectangle bounds = {bounds} pathOptions={BOUNDS_STYLE} />
 }
 
+//still non-existent minimap
 function MinimapControl({ position, zoom }) {
     const parentMap = useMap()
     const mapZoom = zoom || 0
@@ -107,6 +119,10 @@ function MinimapControl({ position, zoom }) {
         [],
     )
 }
+
+/*
+*Does everything else
+*/
 function MapCoords(){ 
     const [map, setMap] = useState(null)
     const animateRef = useRef(false)
@@ -148,7 +164,9 @@ function MapCoords(){
             <LayersControl.Overlay checked name="Center">
                 <LayerGroup>
                     <CircleMarker center={center} pathOptions={purpleOptions} radius={6}>
-                        <Tooltip> Center </Tooltip>
+                        <Tooltip> 
+                            Center 
+                        </Tooltip> 
                     </CircleMarker>
                 </LayerGroup>
             </LayersControl.Overlay>
@@ -166,6 +184,9 @@ function MapCoords(){
   )
 }
 
+/*
+* Much simpler map
+*/
 function MapApp() {
   return (
      <div className="MapContainerWrapper">
